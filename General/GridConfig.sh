@@ -19,7 +19,7 @@ export MAX_RESUBMIT="3"
 # configure task
 export TASK_BASENAME="DataValidation"
 export ANALYSIS_NAME="DataValidation0"
-export ALIPHYSICS_TAG="vAN-20210904_ROOT6-1"
+export ALIPHYSICS_TAG="vAN-20210914_ROOT6-1"
 export OUTPUT_TDIRECTORY_FILE="OutputAnalysis"
 export INPUT_FILES_PER_SUBJOB="50"
 export RUNS_PER_MASTERJOB="1"
