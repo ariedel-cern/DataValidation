@@ -45,7 +45,7 @@ export LOCAL_TMP_DIR="/tmp"
 
 # set analysis mode
 # has to be local or grid
-export ANALYSIS_MODE="local"
+export ANALYSIS_MODE="grid"
 
 # when runnnig on grid
 # has to be test, offline, submit, full or terminate
