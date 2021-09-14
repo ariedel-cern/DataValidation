@@ -9,8 +9,7 @@
 
 # path to grid utility scripts which is ideally set in your bashrc or by sourcing SetupEnv.sh
 # if not, set it to the default value and hope for the best
-[ -z $GRID_UTILITY_SCRIPTS ] && export GRID_UTILITY_SCRIPTS="${HOME}/GridUtilityScripts"
-[ ! -d $GRID_UTILITY_SCRIPTS ] && echo "Cannot find GRID_UTILITY_SCRIPTS. Bail out..." && return 1
+[ ! -d ${GRID_UTILITY_SCRIPTS:=$HOME/GridUtilityScripts} ] && echo "Cannot find GRID_UTILITY_SCRIPTS. Bail out..." && return 1
 
 # miscellaneous variables
 export TIMEOUT="300"
