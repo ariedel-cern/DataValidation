@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 14.09.2021
+# Last Modified Date: 15.09.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -12,7 +12,7 @@
 [ ! -d ${GRID_UTILITY_SCRIPTS:=$HOME/GridUtilityScripts} ] && echo "Cannot find GRID_UTILITY_SCRIPTS. Bail out..." && return 1
 
 # miscellaneous variables
-export TIMEOUT="300"
+export TIMEOUT="30"
 export COPY_JOBS="120"
 export MAX_RESUBMIT="3"
 
@@ -21,7 +21,7 @@ export TASK_BASENAME="DataValidation"
 export ANALYSIS_NAME="DataValidation1"
 export ALIPHYSICS_TAG="vAN-20210914_ROOT6-1"
 export OUTPUT_TDIRECTORY_FILE="OutputAnalysis"
-export INPUT_FILES_PER_SUBJOB="20"
+export INPUT_FILES_PER_SUBJOB="10"
 export RUNS_PER_MASTERJOB="1"
 export MASTER_RESUBMIT_THRESHOLD="50"
 export TIME_TO_LIVE="44000"

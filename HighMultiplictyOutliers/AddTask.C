@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 14.09.2021
+ * Last Modified Date: 15.09.2021
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -15,11 +15,12 @@
 void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
              Bool_t bRunOverAOD = kTRUE) {
 
-  TString OutputFile(std::getenv("GRID_OUTPUT_ROOT_FILE"));
+  TString OutputFile
+      : AddTask.C
 
-  // Get the pointer to the existing analysis manager
-  // via the static access method.
-  AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
+            // Get the pointer to the existing analysis manager
+            // via the static access method.
+            AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
   if (!mgr) {
     Error("AddTask.C macro", "No analysis manager to connect to.");
     return;
@@ -71,7 +72,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   Int_t dcaxy_bins = (dcaxy_max - dcaxy_min) * 10;
   // multiplicity, estimated by number of tracks per event
   Double_t mul_min = 0.;
-  Double_t mul_max = 10000.;
+  Double_t mul_max = 12000.;
   Int_t mul_bins = (mul_max - mul_min) / 10;
   // multiplicity, estimated by number of tracks per event that survive track
   // cuts this is also the number of tracks we fill into qvector
@@ -112,9 +113,9 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   Double_t pos_max = 18.;
   Int_t pos_bins = (pos_max - pos_min) * 100.;
 
-  // Configure your analysis task here
-  AliAnalysisTaskAR *task_noMulCor = new AliAnalysisTaskAR(
-      Form("%s_noMulCor_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
+  // Base task without correlation cuts
+  AliAnalysisTaskAR *task_noCorCuts = new AliAnalysisTaskAR(
+      Form("%s_NOCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
            cen_max),
       kFALSE);
 
@@ -122,50 +123,52 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   // those enumerations are defined in AliAnalysisTaskAR.h
 
   // setters for track control histograms
-  task_noMulCor->SetTrackControlHistogramBinning(kPT, pt_bins, pt_min, pt_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kPHI, phi_bins, phi_min,
-                                                 phi_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kETA, eta_bins, eta_min,
-                                                 eta_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kCHARGE, charge_bins,
-                                                 charge_min, charge_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kTPCNCLS, tpcncls_bins,
-                                                 tpcncls_min, tpcncls_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kITSNCLS, itsncls_bins,
-                                                 itsncls_min, itsncls_max);
-  task_noMulCor->SetTrackControlHistogramBinning(
+  task_noCorCuts->SetTrackControlHistogramBinning(kPT, pt_bins, pt_min, pt_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kPHI, phi_bins, phi_min,
+                                                  phi_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kETA, eta_bins, eta_min,
+                                                  eta_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kCHARGE, charge_bins,
+                                                  charge_min, charge_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kTPCNCLS, tpcncls_bins,
+                                                  tpcncls_min, tpcncls_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kITSNCLS, itsncls_bins,
+                                                  itsncls_min, itsncls_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(
       kCHI2PERNDF, chi2perndf_bins, chi2perndf_min, chi2perndf_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kDCAZ, dcaz_bins, dcaz_min,
-                                                 dcaz_max);
-  task_noMulCor->SetTrackControlHistogramBinning(kDCAXY, dcaxy_bins, dcaxy_min,
-                                                 dcaz_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kDCAZ, dcaz_bins, dcaz_min,
+                                                  dcaz_max);
+  task_noCorCuts->SetTrackControlHistogramBinning(kDCAXY, dcaxy_bins, dcaxy_min,
+                                                  dcaz_max);
   // setters for event control histograms
-  task_noMulCor->SetEventControlHistogramBinning(kMUL, mul_bins, mul_min,
-                                                 mul_max);
-  task_noMulCor->SetEventControlHistogramBinning(kMULQ, mulq_bins, mulq_min,
-                                                 mulq_max);
-  task_noMulCor->SetEventControlHistogramBinning(kMULW, mulw_bins, mulw_min,
-                                                 mulw_max);
-  task_noMulCor->SetEventControlHistogramBinning(kMULREF, mulref_bins,
-                                                 mulref_min, mulref_max);
-  task_noMulCor->SetEventControlHistogramBinning(kNCONTRIB, ncontrib_bins,
-                                                 ncontrib_min, ncontrib_max);
-  task_noMulCor->SetEventControlHistogramBinning(kCEN, cen_bins, cen_min,
-                                                 cen_max);
-  task_noMulCor->SetEventControlHistogramBinning(kX, x_bins, x_min, x_max);
-  task_noMulCor->SetEventControlHistogramBinning(kY, y_bins, y_min, y_max);
-  task_noMulCor->SetEventControlHistogramBinning(kZ, z_bins, z_min, z_max);
-  task_noMulCor->SetEventControlHistogramBinning(kVPOS, pos_bins, pos_min,
-                                                 pos_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kMUL, mul_bins, mul_min,
+                                                  mul_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kMULQ, mulq_bins, mulq_min,
+                                                  mulq_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kMULW, mulw_bins, mulw_min,
+                                                  mulw_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kMULREF, mulref_bins,
+                                                  mulref_min, mulref_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kNCONTRIB, ncontrib_bins,
+                                                  ncontrib_min, ncontrib_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kCEN, cen_bins, cen_min,
+                                                  cen_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kX, x_bins, x_min, x_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kY, y_bins, y_min, y_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kZ, z_bins, z_min, z_max);
+  task_noCorCuts->SetEventControlHistogramBinning(kVPOS, pos_bins, pos_min,
+                                                  pos_max);
 
-  task_noMulCor->SetFillQAHistograms(kFALSE);
-  task_noMulCor->SetFillQACorHistogramsOnly(kTRUE);
+  task_noCorCuts->SetFillQAHistograms(kFALSE);
+  task_noCorCuts->SetFillQACorHistogramsOnly(kTRUE);
 
+  Double_t Offset = 5;
   // setter for centrality correlation histograms
   for (int i = 0; i < LAST_ECENESTIMATORS; i++) {
     for (int j = i + 1; j < LAST_ECENESTIMATORS; j++) {
-      task_noMulCor->SetCenCorQAHistogramBinning(i, cen_bins, cen_min, cen_max,
-                                                 j, cen_bins, cen_min, cen_max);
+      task_noCorCuts->SetCenCorQAHistogramBinning(
+          i, cen_bins + 2 * Offset, cen_min - Offset, cen_max + Offset, j,
+          cen_bins + 2 * Offset, cen_min - Offset, cen_max + Offset);
     }
   }
   // setter for multiplicity correlation histograms
@@ -178,56 +181,77 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
                                      mulref_bins, ncontrib_bins};
   for (int i = 0; i < kMulEstimators; i++) {
     for (int j = i + 1; j < kMulEstimators; j++) {
-      task_noMulCor->SetMulCorQAHistogramBinning(
+      task_noCorCuts->SetMulCorQAHistogramBinning(
           i, MulCorBin[i], MulCorMM[i][0], MulCorMM[i][1], j, MulCorBin[j],
           MulCorMM[j][0], MulCorMM[j][1]);
     }
   }
 
   // setters for track cuts
-  task_noMulCor->SetTrackCuts(kPT, pt_min, pt_max);
-  task_noMulCor->SetTrackCuts(kPHI, phi_min, phi_max);
-  task_noMulCor->SetTrackCuts(kETA, eta_min, eta_max);
-  task_noMulCor->SetTrackCuts(kCHARGE, charge_min, charge_max);
-  task_noMulCor->SetTrackCuts(kTPCNCLS, tpcncls_min, tpcncls_max);
-  task_noMulCor->SetTrackCuts(kITSNCLS, itsncls_min, itsncls_max);
-  task_noMulCor->SetTrackCuts(kCHI2PERNDF, chi2perndf_min, chi2perndf_max);
-  task_noMulCor->SetTrackCuts(kDCAZ, dcaz_min, dcaz_max);
-  task_noMulCor->SetTrackCuts(kDCAXY, dcaxy_min, dcaxy_max);
+  task_noCorCuts->SetTrackCuts(kPT, pt_min, pt_max);
+  task_noCorCuts->SetTrackCuts(kPHI, phi_min, phi_max);
+  task_noCorCuts->SetTrackCuts(kETA, eta_min, eta_max);
+  task_noCorCuts->SetTrackCuts(kCHARGE, charge_min, charge_max);
+  task_noCorCuts->SetTrackCuts(kTPCNCLS, tpcncls_min, tpcncls_max);
+  task_noCorCuts->SetTrackCuts(kITSNCLS, itsncls_min, itsncls_max);
+  task_noCorCuts->SetTrackCuts(kCHI2PERNDF, chi2perndf_min, chi2perndf_max);
+  task_noCorCuts->SetTrackCuts(kDCAZ, dcaz_min, dcaz_max);
+  task_noCorCuts->SetTrackCuts(kDCAXY, dcaxy_min, dcaxy_max);
   // setters for event cuts
-  task_noMulCor->SetEventCuts(kMUL, mul_min, mul_max);
-  task_noMulCor->SetEventCuts(kMULQ, mulq_min, mulq_max);
-  task_noMulCor->SetEventCuts(kMULW, mulw_min, mulw_max);
-  task_noMulCor->SetEventCuts(kMULREF, mulref_min, mulref_max);
-  task_noMulCor->SetEventCuts(kNCONTRIB, ncontrib_min, ncontrib_max);
-  task_noMulCor->SetEventCuts(kCEN, centerMin, centerMax);
-  task_noMulCor->SetEventCuts(kX, x_min, x_max);
-  task_noMulCor->SetEventCuts(kY, y_min, y_max);
-  task_noMulCor->SetEventCuts(kZ, z_min, z_max);
-  task_noMulCor->SetEventCuts(kVPOS, pos_min, pos_max);
-  // correlation cuts
-  task_noMulCor->SetCenCorCut(1.0, 10); // slope, offset
+  task_noCorCuts->SetEventCuts(kMUL, mul_min, mul_max);
+  task_noCorCuts->SetEventCuts(kMULQ, mulq_min, mulq_max);
+  task_noCorCuts->SetEventCuts(kMULW, mulw_min, mulw_max);
+  task_noCorCuts->SetEventCuts(kMULREF, mulref_min, mulref_max);
+  task_noCorCuts->SetEventCuts(kNCONTRIB, ncontrib_min, ncontrib_max);
+  task_noCorCuts->SetEventCuts(kCEN, centerMin, centerMax);
+  task_noCorCuts->SetEventCuts(kX, x_min, x_max);
+  task_noCorCuts->SetEventCuts(kY, y_min, y_max);
+  task_noCorCuts->SetEventCuts(kZ, z_min, z_max);
+  task_noCorCuts->SetEventCuts(kVPOS, pos_min, pos_max);
+
   // other cuts
-  task_noMulCor->SetFilterbit(128); // typical 1,92,128,256,768
-  task_noMulCor->SetPrimaryOnlyCut(kTRUE);
-  task_noMulCor->SetChargedOnlyCut(kTRUE);
-  task_noMulCor->SetGlobalTracksOnlyCut(
+  task_noCorCuts->SetFilterbit(128); // typical 1,92,128,256,768
+  task_noCorCuts->SetPrimaryOnlyCut(kTRUE);
+  task_noCorCuts->SetChargedOnlyCut(kTRUE);
+  task_noCorCuts->SetGlobalTracksOnlyCut(
       kFALSE); // DO NOT USE in combination with filterbit
-  task_noMulCor->SetCentralityEstimator(
+  task_noCorCuts->SetCentralityEstimator(
       kV0M); // choices: kV0M,kCL0,kCL1,kSPDTRACKLETS
 
   // fill control histograms and then bail out
-  task_noMulCor->SetFillControlHistogramsOnly(kTRUE);
+  task_noCorCuts->SetFillControlHistogramsOnly(kTRUE);
 
-  AliAnalysisTaskAR *task_MulCor =
-      dynamic_cast<AliAnalysisTaskAR *>(task_noMulCor->Clone(
-          Form("%s_MulCor_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
+  Double_t m_cen = 1.1;
+  Double_t t_cen = 10;
+  Double_t m_mul = 1.8;
+  Double_t t_mul = 80;
+
+  // task with centrality correlation cuts
+  AliAnalysisTaskAR *task_withCenCorCuts =
+      dynamic_cast<AliAnalysisTaskAR *>(task_noCorCuts->Clone(
+          Form("%s_CENCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
                cen_max)));
+  task_withCenCorCuts->SetCenCorCut(m_cen, t_cen);
 
-  task_MulCor->SetMulCorCut(1.4, 300); // slope, offset
+  // task with multiplicity correlation cuts
+  AliAnalysisTaskAR *task_withMulCorCuts =
+      dynamic_cast<AliAnalysisTaskAR *>(task_noCorCuts->Clone(
+          Form("%s_MULCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
+               cen_max)));
+  task_withMulCorCuts->SetMulCorCut(m_mul, t_mul);
+
+  // task with multiplicity and centrality correlation cuts
+  AliAnalysisTaskAR *task_withCenMulCorCuts =
+      dynamic_cast<AliAnalysisTaskAR *>(task_noCorCuts->Clone(
+          Form("%s_CENMULCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
+               cen_max)));
+  task_withCenMulCorCuts->SetCenCorCut(m_cen, t_cen);
+  task_withCenMulCorCuts->SetMulCorCut(m_mul, t_mul);
 
   // add all tasks to the analysis manager in a loop
-  std::vector<AliAnalysisTaskAR *> tasks = {task_noMulCor, task_MulCor};
+  std::vector<AliAnalysisTaskAR *> tasks = {task_noCorCuts, task_withCenCorCuts,
+                                            task_withMulCorCuts,
+                                            task_withCenMulCorCuts};
 
   // Define input/output containers:
   OutputFile += TString(":") + TString(std::getenv("OUTPUT_TDIRECTORY_FILE"));

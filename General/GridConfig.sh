@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 14.09.2021
+# Last Modified Date: 15.09.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # configuration for DataValidation
@@ -12,7 +12,7 @@
 [ ! -d ${GRID_UTILITY_SCRIPTS:=$HOME/GridUtilityScripts} ] && echo "Cannot find GRID_UTILITY_SCRIPTS. Bail out..." && return 1
 
 # miscellaneous variables
-export TIMEOUT="300"
+export TIMEOUT="30"
 export COPY_JOBS="120"
 export MAX_RESUBMIT="3"
 

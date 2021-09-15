@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 14.09.2021
+ * Last Modified Date: 15.09.2021
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -71,7 +71,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   Int_t dcaxy_bins = (dcaxy_max - dcaxy_min) * 10;
   // multiplicity, estimated by number of tracks per event
   Double_t mul_min = 0.;
-  Double_t mul_max = 10000.;
+  Double_t mul_max = 12000.;
   Int_t mul_bins = (mul_max - mul_min) / 10;
   // multiplicity, estimated by number of tracks per event that survive track
   // cuts this is also the number of tracks we fill into qvector
@@ -218,22 +218,36 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   // fill control histograms and then bail out
   task_noCorCuts->SetFillControlHistogramsOnly(kTRUE);
 
-  // new task with centrality correlation cuts
+  Double_t m_cen = 1.1;
+  Double_t t_cen = 10;
+  Double_t m_mul = 1.8;
+  Double_t t_mul = 80;
+
+  // task with centrality correlation cuts
   AliAnalysisTaskAR *task_withCenCorCuts =
       dynamic_cast<AliAnalysisTaskAR *>(task_noCorCuts->Clone(
           Form("%s_CENCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
                cen_max)));
-  task_withCenCorCuts->SetCenCorCut(1.1, 10); // slope, offset
+  task_withCenCorCuts->SetCenCorCut(m_cen, t_cen);
 
-  // new task with multiplicity correlation cuts
+  // task with multiplicity correlation cuts
+  AliAnalysisTaskAR *task_withMulCorCuts =
+      dynamic_cast<AliAnalysisTaskAR *>(task_noCorCuts->Clone(
+          Form("%s_MULCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
+               cen_max)));
+  task_withMulCorCuts->SetMulCorCut(m_mul, t_mul);
+
+  // task with multiplicity and centrality correlation cuts
   AliAnalysisTaskAR *task_withCenMulCorCuts =
-      dynamic_cast<AliAnalysisTaskAR *>(task_withCenCorCuts->Clone(
+      dynamic_cast<AliAnalysisTaskAR *>(task_noCorCuts->Clone(
           Form("%s_CENMULCOR_%.1f-%.1f", std::getenv("TASK_BASENAME"), cen_min,
                cen_max)));
-  task_withCenMulCorCuts->SetMulCorCut(1.4, 300); // slope, offset
+  task_withCenMulCorCuts->SetCenCorCut(m_cen, t_cen);
+  task_withCenMulCorCuts->SetMulCorCut(m_mul, t_mul);
 
   // add all tasks to the analysis manager in a loop
   std::vector<AliAnalysisTaskAR *> tasks = {task_noCorCuts, task_withCenCorCuts,
+                                            task_withMulCorCuts,
                                             task_withCenMulCorCuts};
 
   // Define input/output containers:
