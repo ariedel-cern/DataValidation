@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 15.09.2021
+# Last Modified Date: 16.09.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # configuration for DataValidation
@@ -42,6 +42,27 @@ export ANALYSIS_MACRO_FILE_NAME="flowAnalysis.C"
 # define directories and files on local machine
 export LOCAL_WORKING_DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 export LOCAL_TMP_DIR="/tmp"
+export LOCAL_OUTPUT_ROOT_FILE="Output.root"
+export LOCAL_OUTPUT_HISTOGRAMS=$(
+    cat <<'EOF'
+[kRECO]fEventControlHistograms[kMULQ][kBEFORE]
+[kRECO]fEventControlHistograms[kMULQ][kAFTER]
+[kRECO]fEventControlHistograms[kMULREF][kBEFORE]
+[kRECO]fEventControlHistograms[kMULREF][kAFTER]
+[kRECO]fEventControlHistograms[kNCONTRIB][kBEFORE]
+[kRECO]fEventControlHistograms[kNCONTRIB][kAFTER]
+[kRECO]fEventControlHistograms[kCEN][kBEFORE]
+[kRECO]fEventControlHistograms[kCEN][kAFTER]
+[kRECO]fEventControlHistograms[kX][kBEFORE]
+[kRECO]fEventControlHistograms[kX][kAFTER]
+[kRECO]fEventControlHistograms[kY][kBEFORE]
+[kRECO]fEventControlHistograms[kY][kAFTER]
+[kRECO]fEventControlHistograms[kZ][kBEFORE]
+[kRECO]fEventControlHistograms[kZ][kAFTER]
+[kRECO]fEventControlHistograms[kVPOS][kBEFORE]
+[kRECO]fEventControlHistograms[kVPOS][kAFTER]
+EOF
+)
 
 # set analysis mode
 # has to be local or grid
