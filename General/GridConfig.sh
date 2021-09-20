@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 16.09.2021
+# Last Modified Date: 20.09.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # configuration for DataValidation
@@ -45,6 +45,18 @@ export LOCAL_TMP_DIR="/tmp"
 export LOCAL_OUTPUT_ROOT_FILE="Output.root"
 export LOCAL_OUTPUT_HISTOGRAMS=$(
     cat <<'EOF'
+fCorCenEstimatorQAHistograms[V0M+CL0][kBEFORE]
+fCorCenEstimatorQAHistograms[V0M+CL0][kAFTER]
+fCorCenEstimatorQAHistograms[V0M+CL1][kBEFORE]
+fCorCenEstimatorQAHistograms[V0M+CL1][kAFTER]
+fCorCenEstimatorQAHistograms[V0M+SPDTracklets][kBEFORE]
+fCorCenEstimatorQAHistograms[V0M+SPDTracklets][kAFTER]
+fCorCenEstimatorQAHistograms[CL0+CL1][kBEFORE]
+fCorCenEstimatorQAHistograms[CL0+CL1][kAFTER]
+fCorCenEstimatorQAHistograms[CL0+SPDTracklets][kBEFORE]
+fCorCenEstimatorQAHistograms[CL0+SPDTracklets][kAFTER]
+fCorCenEstimatorQAHistograms[CL1+SPDTracklets][kBEFORE]
+fCorCenEstimatorQAHistograms[CL1+SPDTracklets][kAFTER]
 [kRECO]fEventControlHistograms[kMULQ][kBEFORE]
 [kRECO]fEventControlHistograms[kMULQ][kAFTER]
 [kRECO]fEventControlHistograms[kMULREF][kBEFORE]

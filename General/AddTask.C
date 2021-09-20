@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 16.09.2021
+ * Last Modified Date: 17.09.2021
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -120,6 +120,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   Double_t ncontrib_min = 2.;
   Double_t ncontrib_max = ncontrib_ue;
   // centrality
+  Double_t cen_le = centerMin;
   Double_t cen_ue = centerMax;
   Int_t cen_bins = (cen_ue - cen_le) * 1;
   Double_t cen_min = centerMin;
@@ -146,7 +147,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.,
   Double_t pos_le = 0;
   Double_t pos_ue = 18.;
   Int_t pos_bins = (pos_ue - pos_le) * 100.;
-  Double_t pos_min = 1e-6;
+  Double_t pos_min = 1e-2;
   Double_t pos_max = pos_ue;
 
   // Base task without correlation cuts
