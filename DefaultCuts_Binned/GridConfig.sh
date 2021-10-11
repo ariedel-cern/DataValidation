@@ -2,12 +2,12 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 20.09.2021
+# Last Modified Date: 11.10.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
-# configuration for DataValidation
+# example configuration for running a analysis on grid
 
-# path to grid utility scripts which is ideally set in your bashrc or by sourcing SetupEnv.sh
+# check path to grid utility scripts which is ideally set in your bashrc or by sourcing SetupEnv.sh
 # if not, set it to the default value and hope for the best
 [ ! -d ${GRID_UTILITY_SCRIPTS:=$HOME/GridUtilityScripts} ] && echo "Cannot find GRID_UTILITY_SCRIPTS. Bail out..." && return 1
 
@@ -18,10 +18,10 @@ export MAX_RESUBMIT="3"
 
 # configure task
 export TASK_BASENAME="DataValidation"
-export ANALYSIS_NAME="DataValidation0"
-export ALIPHYSICS_TAG="vAN-20210914_ROOT6-1"
+export ANALYSIS_NAME="DataValidation_DefaultCutsBinned"
+export ALIPHYSICS_TAG="vAN-20211011_ROOT6-1"
 export OUTPUT_TDIRECTORY_FILE="OutputAnalysis"
-export INPUT_FILES_PER_SUBJOB="50"
+export INPUT_FILES_PER_SUBJOB="10"
 export RUNS_PER_MASTERJOB="1"
 export MASTER_RESUBMIT_THRESHOLD="50"
 export TIME_TO_LIVE="44000"
@@ -42,43 +42,10 @@ export ANALYSIS_MACRO_FILE_NAME="flowAnalysis.C"
 # define directories and files on local machine
 export LOCAL_WORKING_DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 export LOCAL_TMP_DIR="/tmp"
-export LOCAL_OUTPUT_ROOT_FILE="Output.root"
-export LOCAL_OUTPUT_HISTOGRAMS=$(
-    cat <<'EOF'
-fCorCenEstimatorQAHistograms[V0M+CL0][kBEFORE]
-fCorCenEstimatorQAHistograms[V0M+CL0][kAFTER]
-fCorCenEstimatorQAHistograms[V0M+CL1][kBEFORE]
-fCorCenEstimatorQAHistograms[V0M+CL1][kAFTER]
-fCorCenEstimatorQAHistograms[V0M+SPDTracklets][kBEFORE]
-fCorCenEstimatorQAHistograms[V0M+SPDTracklets][kAFTER]
-fCorCenEstimatorQAHistograms[CL0+CL1][kBEFORE]
-fCorCenEstimatorQAHistograms[CL0+CL1][kAFTER]
-fCorCenEstimatorQAHistograms[CL0+SPDTracklets][kBEFORE]
-fCorCenEstimatorQAHistograms[CL0+SPDTracklets][kAFTER]
-fCorCenEstimatorQAHistograms[CL1+SPDTracklets][kBEFORE]
-fCorCenEstimatorQAHistograms[CL1+SPDTracklets][kAFTER]
-[kRECO]fEventControlHistograms[kMULQ][kBEFORE]
-[kRECO]fEventControlHistograms[kMULQ][kAFTER]
-[kRECO]fEventControlHistograms[kMULREF][kBEFORE]
-[kRECO]fEventControlHistograms[kMULREF][kAFTER]
-[kRECO]fEventControlHistograms[kNCONTRIB][kBEFORE]
-[kRECO]fEventControlHistograms[kNCONTRIB][kAFTER]
-[kRECO]fEventControlHistograms[kCEN][kBEFORE]
-[kRECO]fEventControlHistograms[kCEN][kAFTER]
-[kRECO]fEventControlHistograms[kX][kBEFORE]
-[kRECO]fEventControlHistograms[kX][kAFTER]
-[kRECO]fEventControlHistograms[kY][kBEFORE]
-[kRECO]fEventControlHistograms[kY][kAFTER]
-[kRECO]fEventControlHistograms[kZ][kBEFORE]
-[kRECO]fEventControlHistograms[kZ][kAFTER]
-[kRECO]fEventControlHistograms[kVPOS][kBEFORE]
-[kRECO]fEventControlHistograms[kVPOS][kAFTER]
-EOF
-)
 
 # set analysis mode
 # has to be local or grid
-export ANALYSIS_MODE="grid"
+export ANALYSIS_MODE="local"
 
 # when runnnig on grid
 # has to be test, offline, submit, full or terminate
@@ -97,13 +64,22 @@ export RUN_OVER_AOD="1"
 [ $RUN_OVER_AOD -ne 1 ] && echo "Run over ESD not supported yet" && return 1
 
 # when running locally specify data directory
-[ $RUN_OVER_DATA -eq 1 -a $RUN_OVER_AOD -eq 1 ] && export DataDir="/home/vagrant/data/2010/LHC10h/000137161/ESDs/pass2/AOD160"
+# [ $RUN_OVER_DATA -eq 1 -a $RUN_OVER_AOD -eq 1 ] && export DataDir="/home/vagrant/data/2010/LHC10h/000137161/ESDs/pass2/AOD160"
+[ $RUN_OVER_DATA -eq 1 -a $RUN_OVER_AOD -eq 1 ] && export DataDir="$HOME/tmp_local/data/2010/LHC10h/000137161/ESDs/pass2/AOD160"
 [ $RUN_OVER_DATA -eq 0 -a $RUN_OVER_AOD -eq 1 ] && export DataDir="/home/vagrant/sim/LHC10d4/120822/AOD056"
 
 # configure centrality bins
 export CENTRALITY_BIN_EDGES=$(
     cat <<'EOF'
 0
+5
+10
+20
+30
+40
+50
+60
+70
 80
 EOF
 )
