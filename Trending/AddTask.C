@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 11.10.2021
+ * Last Modified Date: 12.10.2021
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -39,30 +39,15 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.) {
   task->SetDefaultConfiguration();
   task->SetDefaultBinning();
   task->SetDefaultCuts(128, centerMin, centerMax);
-
-  // histogram for centrality flattening
-  // task->SetCenFlattenHist("output/CentralityProbabilities.root",
-  // "CenProb");
-
-  // weight histograms
-  // task->SetWeightHistogram(kPT,"output/weights.root","PTweights");
-  // task->SetWeightHistogram(kPHI,"output/weights.root","PHIweights");
-  // task->SetWeightHistogram(kETA,"output/weights.root","ETAweights");
-  // setters for correlators we want to compute
+  task->SetFillQACorHistogramsOnly(kTRUE);
 
   std::vector<std::vector<Int_t>> correlators = {
       {-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6},
   };
   task->SetCorrelators(correlators);
-  // configure more tasks, i.e. through cloning
-  // AliAnalysisTaskAR *Newtask =
-  //     dynamic_cast<AliAnalysisTaskAR *>(task->Clone(Form("NewTask_%.1f-%.1f",
-  //     centerMin, centerMax));
-  // NewTask->SetCentralityEstimator(kSPDTRACKLETS);
 
   // add all tasks to the analysis manager in a loop
   std::vector<AliAnalysisTaskAR *> tasks = {task};
-  // std::vector<AliAnalysisTaskAR *> tasks = {task,Newtask};
 
   // Define input/output containers:
   OutputFile += TString(":") + TString(std::getenv("OUTPUT_TDIRECTORY_FILE"));

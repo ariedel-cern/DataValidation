@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 11.10.2021
+# Last Modified Date: 13.10.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -13,13 +13,13 @@
 
 # miscellaneous variables
 export TIMEOUT="300"
-export COPY_JOBS="120"
+export COPY_JOBS="64"
 export MAX_RESUBMIT="3"
 
 # configure task
 export TASK_BASENAME="DataValidation"
 export ANALYSIS_NAME="DataValidaion_Trending"
-export ALIPHYSICS_TAG="vAN-20211011_ROOT6-1"
+export ALIPHYSICS_TAG="vAN-20211012_ROOT6-1"
 export OUTPUT_TDIRECTORY_FILE="OutputAnalysis"
 export INPUT_FILES_PER_SUBJOB="50"
 export RUNS_PER_MASTERJOB="1"
@@ -50,7 +50,7 @@ EOF
 
 # set analysis mode
 # has to be local or grid
-export ANALYSIS_MODE="local"
+export ANALYSIS_MODE="grid"
 
 # when runnnig on grid
 # has to be test, offline, submit, full or terminate
@@ -75,8 +75,8 @@ export RUN_OVER_AOD="1"
 # [ $RUN_OVER_DATA -eq 0 -a $RUN_OVER_AOD -eq 1 ] && export DataDir="/home/vagrant/sim/LHC10d4/120822/AOD056"
 
 # path to own xml collection so we do not need to recreate them every time
-[ $RUN_OVER_DATA -q 1 ] && export GRID_XML_COLLECTION="${GRID_HOME_DIR}/XMLcollections/LHC10h/pass2/AOD/AOD160"
-[ $RUN_OVER_DATA -q 0 ] && export GRID_XML_COLLECTION="${GRID_HOME_DIR}/XMLcollections/LHC11a10a_bis/pass2/AOD/AOD162"
+[ $RUN_OVER_DATA -eq 1 ] && export GRID_XML_COLLECTION="${GRID_HOME_DIR}/XMLcollections/LHC10h/pass2/AOD/AOD160"
+[ $RUN_OVER_DATA -eq 0 ] && export GRID_XML_COLLECTION="${GRID_HOME_DIR}/XMLcollections/LHC11a10a_bis/pass2/AOD/AOD162"
 
 # configure centrality bins
 export CENTRALITY_BIN_EDGES=$(
