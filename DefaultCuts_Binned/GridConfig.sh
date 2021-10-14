@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 11.10.2021
+# Last Modified Date: 12.10.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -19,7 +19,7 @@ export MAX_RESUBMIT="3"
 # configure task
 export TASK_BASENAME="DataValidation"
 export ANALYSIS_NAME="DataValidation_DefaultCutsBinned"
-export ALIPHYSICS_TAG="vAN-20211011_ROOT6-1"
+export ALIPHYSICS_TAG="vAN-20211012_ROOT6-1"
 export OUTPUT_TDIRECTORY_FILE="OutputAnalysis"
 export INPUT_FILES_PER_SUBJOB="10"
 export RUNS_PER_MASTERJOB="1"
@@ -45,7 +45,7 @@ export LOCAL_TMP_DIR="/tmp"
 
 # set analysis mode
 # has to be local or grid
-export ANALYSIS_MODE="local"
+export ANALYSIS_MODE="grid"
 
 # when runnnig on grid
 # has to be test, offline, submit, full or terminate

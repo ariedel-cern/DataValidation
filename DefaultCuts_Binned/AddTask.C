@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 11.10.2021
+ * Last Modified Date: 12.10.2021
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -38,6 +38,10 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.) {
   defaultTask->SetDefaultBinning();
   defaultTask->SetDefaultCuts(128, centerMin, centerMax);
   defaultTask->SetFillQACorHistogramsOnly(kTRUE);
+
+  std::vector<std::vector<Int_t>> correlators = {
+      {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}};
+  defaultTask->SetCorrelators(correlators);
 
   // task without centrality correlation cuts
   AliAnalysisTaskAR *noCenCorCuts =
