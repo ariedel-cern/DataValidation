@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 13.10.2021
+# Last Modified Date: 14.10.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -45,6 +45,21 @@ export LOCAL_OUTPUT_HISTOGRAMS=$(
     cat <<'EOF'
 [kRECO]fEventControlHistograms[kCEN][kBEFORE]
 [kRECO]fEventControlHistograms[kCEN][kAFTER]
+EOF
+)
+export LOCAL_OUTPUT_TRENDING_FILE="Trending.root"
+export LOCAL_OUTPUT_TRENDING=$(
+    cat <<'EOF'
+fFinalResultHistograms[kAVGPHI]
+fFinalResultHistograms[kAVGCEN]
+fFinalResultHistograms[kNUMBEROFEVENTS]
+fFinalResultHistograms[kNUMBEROFTRACKS]
+v_{-1,1}integrated
+v_{-2,2}integrated
+v_{-3,3}integrated
+v_{-4,4}integrated
+v_{-5,5}integrated
+v_{-6,6}integrated
 EOF
 )
 

@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 13.10.2021
+# Last Modified Date: 15.10.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -83,24 +83,17 @@ export RUN_OVER_AOD="1"
 export CENTRALITY_BIN_EDGES=$(
     cat <<'EOF'
 0
+5
+10
+20
+30
+40
+50
+60
+70
 80
 EOF
 )
-
-# export CENTRALITY_BIN_EDGES=$(
-#     cat <<'EOF'
-# 0
-# 5
-# 10
-# 20
-# 30
-# 40
-# 50
-# 60
-# 70
-# 80
-# EOF
-# )
 
 # configure run numbers
 export RUN_NUMBER=$(
