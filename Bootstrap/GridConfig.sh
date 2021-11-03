@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 27.10.2021
+# Last Modified Date: 03.11.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -54,10 +54,28 @@ fFinalResultHistograms[kAVGPHI]
 fFinalResultHistograms[kAVGCEN]
 EOF
 )
+export LOCAL_SUBSAMPLES_FILE="Subsamples.txt"
 export LOCAL_OUTPUT_BOOTSTRAP_FILE="Bootstrap.root"
 export LOCAL_OUTPUT_BOOTSTRAP=$(
     cat <<'EOF'
-    SC(2,3)
+      SC(2,3)
+      SC(2,4)
+      SC(2,5)
+      SC(2,6)
+      SC(3,4)
+      SC(3,5)
+      SC(3,6)
+      SC(4,5)
+      SC(4,6)
+      SC(5,6)
+      SC(2,3,4)
+      SC(2,3,5)
+      SC(2,3,6)
+      SC(2,4,5)
+      SC(2,4,6)
+      SC(3,4,5)
+      SC(3,4,6)
+      SC(4,5,6)
 EOF
 )
 
