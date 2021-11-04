@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 03.11.2021
+# Last Modified Date: 04.11.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -50,8 +50,7 @@ EOF
 export LOCAL_OUTPUT_TRENDING_FILE="Trending.root"
 export LOCAL_OUTPUT_TRENDING=$(
     cat <<'EOF'
-fFinalResultHistograms[kAVGPHI]
-fFinalResultHistograms[kAVGCEN]
+fFinalResultHistograms[kNUMBEROFEVENTS]
 EOF
 )
 export LOCAL_SUBSAMPLES_FILE="Subsamples.txt"
