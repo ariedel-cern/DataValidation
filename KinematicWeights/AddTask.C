@@ -14,6 +14,8 @@
 
 void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.) {
 
+  std::cout << "TEFUCK" << std::endl;
+
   TString OutputFile(std::getenv("GRID_OUTPUT_ROOT_FILE"));
 
   // Get the pointer to the existing analysis manager
@@ -39,6 +41,7 @@ void AddTask(Float_t centerMin = 0., Float_t centerMax = 100.) {
   task->SetDefaultConfiguration();
   task->SetDefaultBinning();
   task->SetDefaultCuts(128, centerMin, centerMax);
+  task->SetFillControlHistogramsOnly(kTRUE);
 
   // add all tasks to the analysis manager in a loop
   std::vector<AliAnalysisTaskAR *> tasks = {task};

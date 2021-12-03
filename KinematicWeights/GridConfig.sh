@@ -2,7 +2,7 @@
 # File              : GridConfig.sh
 # Author            : Anton Riedel <anton.riedel@tum.de>
 # Date              : 25.08.2021
-# Last Modified Date: 15.10.2021
+# Last Modified Date: 01.12.2021
 # Last Modified By  : Anton Riedel <anton.riedel@tum.de>
 
 # example configuration for running a analysis on grid
@@ -12,19 +12,25 @@
 [ ! -d ${GRID_UTILITY_SCRIPTS:=$HOME/GridUtilityScripts} ] && echo "Cannot find GRID_UTILITY_SCRIPTS. Bail out..." && return 1
 
 # miscellaneous variables
-export TIMEOUT="300"
-export COPY_JOBS="64"
+export TIMEOUT_LONG="300"
+export TIMEOUT_SHORT="15"
+export COPY_JOBS="120"
 export MAX_RESUBMIT="3"
+export LIMIT_RUNNING_SUBJOBS="1500"
+export THRESHOLD_SUBJOBS="1300"
+export THRESHOLD_ERROR_SUBJOBS="200"
+export LIMIT_RUNNING_TIME="100"
+export THRESHOLD_RUNNING_TIME="90"
+export LIMIT_CPU_COST="100"
+export THRESHOLD_CPU_COST="90"
 
 # configure task
 export TASK_BASENAME="KinematicWeights"
 export ANALYSIS_NAME="KinematicWeights"
-export ALIPHYSICS_TAG="vAN-20211012_ROOT6-1"
+export ALIPHYSICS_TAG="vAN-20211129_ROOT6-1"
 export OUTPUT_TDIRECTORY_FILE="OutputAnalysis"
-export INPUT_FILES_PER_SUBJOB="50"
 export RUNS_PER_MASTERJOB="1"
 export MASTER_RESUBMIT_THRESHOLD="50"
-export TIME_TO_LIVE="44000"
 
 # define directories and files on grid
 export GRID_HOME_DIR="/alice/cern.ch/user/a/ariedel"
@@ -39,7 +45,8 @@ export ANALYSIS_MACRO_FILE_NAME="flowAnalysis.C"
 
 # define directories and files on local machine
 export LOCAL_WORKING_DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
-export LOCAL_TMP_DIR="/tmp"
+export LOCAL_TMP_DIR="$LOCAL_WORKING_DIR/tmp"
+mkdir -p $LOCAL_TMP_DIR
 export LOCAL_OUTPUT_ROOT_FILE="Output.root"
 export LOCAL_OUTPUT_HISTOGRAMS=$(
     cat <<'EOF'
@@ -47,6 +54,38 @@ export LOCAL_OUTPUT_HISTOGRAMS=$(
 [kRECO]fEventControlHistograms[kCEN][kAFTER]
 EOF
 )
+
+# configure for reincarnations
+export INPUT_FILES_PER_SUBJOB=$(cat <<EOF
+100
+20
+1
+EOF
+)
+
+export TIME_TO_LIVE=$(cat <<EOF
+28800
+14400
+7200
+EOF
+)
+
+export MASTERJOB_ID=$(cat <<EOF
+$LOCAL_TMP_DIR/MasterjobID_R1
+$LOCAL_TMP_DIR/MasterjobID_R2
+$LOCAL_TMP_DIR/MasterjobID_R3
+EOF
+)
+
+export MASTERJOB_META=$(cat <<EOF
+$LOCAL_TMP_DIR/MasterjobMeta_R1
+$LOCAL_TMP_DIR/MasterjobMeta_R2
+$LOCAL_TMP_DIR/MasterjobMeta_R3
+EOF
+)
+
+# log files
+export SUBMIT_LOG="$LOCAL_TMP_DIR/Submit.log"
 
 # set analysis mode
 # has to be local or grid
@@ -98,6 +137,7 @@ EOF
 # configure run numbers
 export RUN_NUMBER=$(
     cat <<'EOF'
+137161
 139510
 139507
 139505
@@ -105,92 +145,105 @@ export RUN_NUMBER=$(
 139465
 139438
 139437
-139360
-139329
-139328
-139314
-139310
-139309
-139173
-139107
-139105
-139038
-139037
-139036
-139029
-139028
-138872
-138871
-138870
-138837
-138732
-138730
-138666
-138662
-138653
-138652
-138638
-138624
-138621
-138583
-138582
-138578
-138534
-138469
-138442
-138439
-138438
-138396
-138364
-138275
-138225
-138201
-138197
-138192
-138190
-137848
-137844
-137752
-137751
-137724
-137722
-137718
-137704
-137693
-137692
-137691
-137686
-137685
-137639
-137638
-137608
-137595
-137549
-137546
-137544
-137541
-137539
-137531
-137530
-137443
-137441
-137440
-137439
-137434
-137432
-137431
-137430
-137243
-137236
-137235
-137232
-137231
-137230
-137162
-137161
 EOF
 )
 
+# configure run numbers
+# export RUN_NUMBER=$(
+#     cat <<'EOF'
+# 139510
+# 139507
+# 139505
+# 139503
+# 139465
+# 139438
+# 139437
+# 139360
+# 139329
+# 139328
+# 139314
+# 139310
+# 139309
+# 139173
+# 139107
+# 139105
+# 139038
+# 139037
+# 139036
+# 139029
+# 139028
+# 138872
+# 138871
+# 138870
+# 138837
+# 138732
+# 138730
+# 138666
+# 138662
+# 138653
+# 138652
+# 138638
+# 138624
+# 138621
+# 138583
+# 138582
+# 138578
+# 138534
+# 138469
+# 138442
+# 138439
+# 138438
+# 138396
+# 138364
+# 138275
+# 138225
+# 138201
+# 138197
+# 138192
+# 138190
+# 137848
+# 137844
+# 137752
+# 137751
+# 137724
+# 137722
+# 137718
+# 137704
+# 137693
+# 137692
+# 137691
+# 137686
+# 137685
+# 137639
+# 137638
+# 137608
+# 137595
+# 137549
+# 137546
+# 137544
+# 137541
+# 137539
+# 137531
+# 137530
+# 137443
+# 137441
+# 137440
+# 137439
+# 137434
+# 137432
+# 137431
+# 137430
+# 137243
+# 137236
+# 137235
+# 137232
+# 137231
+# 137230
+# 137162
+# 137161
+# EOF
+# )
+#
 echo "Sourced $(realpath ${BASH_SOURCE[0]}) at $(date "+%Y-%m-%d_%H:%M:%S")"
 
 return 0
