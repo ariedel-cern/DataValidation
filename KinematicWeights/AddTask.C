@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 04.12.2021
+ * Last Modified Date: 13.12.2021
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -41,10 +41,77 @@ void AddTask(const char *ConfigFileName, Float_t CenterMin, Float_t CenterMax) {
   task->SetDefaultConfiguration();
   task->SetDefaultBinning();
   task->SetDefaultCuts(128, CenterMin, CenterMax);
+  // should be includedi n default cuts
+  task->SetTrackCuts(kTPCCROSSEDROWS, kFALSE);
   task->SetFillControlHistogramsOnly(kTRUE);
 
+  // systematic checks
+  // change centrality estimator
+  AliAnalysisTaskAR *task_CenSPD = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_CenSPD", task->GetName())));
+  task_CenSPD->SetCentralityEstimator(kSPDTRACKLETS);
+
+  // open vertex cuts in z direction
+  AliAnalysisTaskAR *task_Vz14 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_Vz14", task->GetName())));
+  task_Vz14->SetEventCuts(kZ, -14., 14.);
+
+  // allow more multipliticty outliers
+  AliAnalysisTaskAR *task_MC16400 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_MC16350", task->GetName())));
+  task_MC16400->SetMulCorCut(1.6, 350);
+
+  // allow more centrality outliers
+  AliAnalysisTaskAR *task_CC1111 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_CC1111", task->GetName())));
+  task_CC1111->SetCenCorCut(1.1, 11);
+
+  // narrow up dca XY
+  AliAnalysisTaskAR *task_DcaXY22 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_DcaXY22", task->GetName())));
+  task_DcaXY22->SetTrackCuts(kDCAXY, -2.2, 2.2);
+
+  // narrow up dca Z
+  AliAnalysisTaskAR *task_DcaZ24 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_DcaZ24", task->GetName())));
+  task_DcaZ24->SetTrackCuts(kDCAZ, -2.4, 2.4);
+
+  // open up number of clusters
+  AliAnalysisTaskAR *task_Cluster60 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_Cluster60", task->GetName())));
+  task_Cluster60->SetTrackCuts(kTPCNCLS, 60, 160);
+
+  // narrow number of clusters
+  AliAnalysisTaskAR *task_Cluster80 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_Cluster80", task->GetName())));
+  task_Cluster80->SetTrackCuts(kTPCNCLS, 80, 160);
+
+  // filterbit 1
+  AliAnalysisTaskAR *task_Fb1 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_Fb1", task->GetName())));
+  task_Fb1->SetTrackCuts(kDCAZ, kFALSE);
+  task_Fb1->SetTrackCuts(kDCAXY, kFALSE);
+  task_Fb1->SetFilterbit(1);
+
+  // filterbit 96
+  AliAnalysisTaskAR *task_Fb96 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_Fb96", task->GetName())));
+  task_Fb96->SetTrackCuts(kDCAZ, kFALSE);
+  task_Fb96->SetTrackCuts(kDCAXY, kFALSE);
+  task_Fb96->SetFilterbit(96);
+
+  // filterbit 768
+  AliAnalysisTaskAR *task_Fb768 = dynamic_cast<AliAnalysisTaskAR *>(
+      task->Clone(Form("%s_Fb768", task->GetName())));
+  task_Fb768->SetTrackCuts(kDCAZ, kFALSE);
+  task_Fb768->SetTrackCuts(kDCAXY, kFALSE);
+  task_Fb768->SetFilterbit(768);
+
   // add all tasks to the analysis manager in a loop
-  std::vector<AliAnalysisTaskAR *> tasks = {task};
+  std::vector<AliAnalysisTaskAR *> tasks = {
+      task,           task_CenSPD,  task_Vz14,   task_CC1111,
+      task_MC16400,   task_DcaXY22, task_DcaZ24, task_Cluster60,
+      task_Cluster80, task_Fb1,     task_Fb96,   task_Fb768};
 
   // CONFIGURE TASKS ABOVE THIS LINE
 
