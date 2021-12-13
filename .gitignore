@@ -1,5 +1,14 @@
 *.root
+*.xml
+*.jdl
 */output/*
 */output*/*
 */Offline/*
 */tmp/*
+AddTask.C.new
+config.json.new
+LOCK
+STATUS.json*
+analysis.sh
+analysis_validation.sh
+flowAnalysis.C
