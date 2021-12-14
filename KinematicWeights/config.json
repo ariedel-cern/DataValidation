@@ -13,7 +13,7 @@
     "AnalysisName": "KinematicWeights",
     "AnalysisTag": "vAN-20211129_ROOT6-1",
     "OutputTDirectory": "OutputAnalysis",
-    "AnalysisMode": "local",
+    "AnalysisMode": "grid",
     "RunOverAOD": true,
     "RunOverData": false,
     "GridHomeDir": "/alice/cern.ch/user/a/ariedel",
