@@ -1,6 +1,8 @@
 *.root
 *.xml
 *.jdl
+*.log
+*.bak
 */output/*
 */output*/*
 */Offline/*
@@ -8,7 +10,7 @@
 AddTask.C.new
 config.json.new
 LOCK
-STATUS.json*
+STATUS.*
 analysis.sh
 analysis_validation.sh
 flowAnalysis.C
