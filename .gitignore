@@ -14,3 +14,5 @@ STATUS.*
 analysis.sh
 analysis_validation.sh
 flowAnalysis.C
+*/Bootstrap/*
+*/GridFiles/*

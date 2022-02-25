@@ -1,8 +1,8 @@
 /**
- * File              : CreateAlienHandler.C
+ * File              : CreateAlienHandler.C.template
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 31.05.2021
- * Last Modified Date: 18.01.2022
+ * Last Modified Date: 19.01.2022
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -10,7 +10,8 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
-AliAnalysisGrid *CreateAlienHandler(const char *ConfigFileName) {
+AliAnalysisGrid *CreateAlienHandler(const char *ConfigFileName,
+                                    Int_t RunNumber) {
 
   // load config file
   std::fstream ConfigFile(ConfigFileName);
@@ -40,8 +41,9 @@ AliAnalysisGrid *CreateAlienHandler(const char *ConfigFileName) {
     plugin->SetOutputToRunNo();  // IMPORTANT!
   }
 
-  // add dummy run number
-  plugin->AddRunNumber(137161);
+  // dummy run number
+  std::cout << RunNumber << std::endl;
+  plugin->AddRunNumber(RunNumber);
 
   // ============================================================================
 

@@ -1,0 +1,39 @@
+{
+  "misc": {
+    "LongTimeout": 600,
+    "ShortTimeout": 20,
+    "CopyJobs": 120,
+    "CopyRetries": 3,
+    "ThresholdActiveSubjob": 1400,
+    "ThresholdRunningTime": 90,
+    "ThresholdCpuCost": 90,
+    "ThresholdReincarnateWaitingJobs": 2
+  },
+  "task": {
+    "BaseName": "PtEtaWeights",
+    "AnalysisName": "PtEtaWeights",
+    "AnalysisTag": "vAN-20220221_ROOT6-1",
+    "OutputTDirectory": "OutputAnalysis",
+    "AnalysisMode": "grid",
+    "RunOverAOD": true,
+    "RunOverData": false,
+    "GridHomeDir": "/alice/cern.ch/user/a/ariedel",
+    "GridWorkDir": "20220222__PtEtaWeights",
+    "GridOutputDir": "output",
+    "GridOutputFile": "AnalysisResults.root",
+    "GridDataDir": "/alice/sim/LHC11a10a_bis/", 
+    "DataPattern": "*ESDs/pass2/AOD160/*AOD.root",
+    "GridXmlCollection": "/alice/cern.ch/user/a/ariedel/XMLcollections/LHC11a10a_bis/pass2/AOD/AOD162/",
+    "Jdl": "flowAnalysis.jdl",
+    "AnalysisMacro": "flowAnalysis.C",
+    "FilesPerSubjob": [100, 50, 20, 1],
+    "TimeToLive": [28800, 21600, 14400, 7200],
+    "LocalDataDir": "/home/stud/ga45can/tmp_local/data/2010/LHC10h/000137161/ESDs/pass2/AOD160",
+    "LocalOutputFile": "Output.root",
+    "CentralityBinEdges": [0, 5, 10, 20, 30, 40, 50, 60, 70, 80],
+    "UseWeights": false
+  },
+  "Runs": [ 137161, 137162, 137230, 137231, 137232, 137235, 137236, 137243, 137430, 137431, 137432, 137434, 137439, 137440, 137441, 137443, 137530, 137531, 137539, 137541, 137544, 137546, 137549, 137595, 137608, 137638, 137639, 137685, 137686, 137691, 137692, 137693, 137704, 137718, 137722, 137724, 137751, 137752, 137844, 137848, 138190, 138192, 138197, 138201, 138225, 138275, 138364, 138396, 138438, 138439, 138442, 138469, 138534, 138578, 138582, 138583, 138621, 138624, 138638, 138652, 138653, 138662, 138666, 138730, 138732, 138837, 138870, 138871, 138872, 139028, 139029, 139036, 139037, 139038, 139105, 139107, 139173, 139309, 139310, 139314, 139328, 139329, 139360, 139437, 139438, 139465, 139503, 139505, 139507, 139510 ],
+  "StatusFile": "STATUS.json",
+  "LockFile": "LOCK"
+}
