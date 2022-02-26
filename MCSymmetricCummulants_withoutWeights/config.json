@@ -19,7 +19,7 @@
     "RunOverAOD": true,
     "RunOverData": false,
     "GridHomeDir": "/alice/cern.ch/user/a/ariedel",
-    "GridWorkDir": "20220225_SCMCWithoutWeights",
+    "GridWorkDir": "20220226_SCMCWithoutWeights",
     "GridOutputDir": "output",
     "GridOutputFile": "AnalysisResults.root",
     "GridDataDir": "/alice/sim/LHC11a10a_bis/", 

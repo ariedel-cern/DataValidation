@@ -19,7 +19,7 @@
     "RunOverAOD": true,
     "RunOverData": true,
     "GridHomeDir": "/alice/cern.ch/user/a/ariedel",
-    "GridWorkDir": "20220225_SCWithoutWeights",
+    "GridWorkDir": "20220226_SCWithoutWeights",
     "GridOutputDir": "output",
     "GridOutputFile": "AnalysisResults.root",
     "GridDataDir": "/alice/data/2010/LHC10h",
