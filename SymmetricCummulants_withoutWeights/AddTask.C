@@ -2,7 +2,7 @@
  * File              : AddTask.C
  * Author            : Anton Riedel <anton.riedel@tum.de>
  * Date              : 07.05.2021
- * Last Modified Date: 25.02.2022
+ * Last Modified Date: 26.02.2022
  * Last Modified By  : Anton Riedel <anton.riedel@tum.de>
  */
 
@@ -68,49 +68,49 @@ void AddTask(const char *ConfigFileName, Int_t RunNumber, Float_t CenterMin,
   AliAnalysisTaskAR *task_CenSPD = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_CenSPD", task->GetName())));
   task_CenSPD->SetCentralityEstimator(kSPDTRACKLETS);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_CenSPD, "_CenSPD");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_CenSPD, "_CenSPD");
 
   // open vertex cuts in z direction
   AliAnalysisTaskAR *task_Vz14 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_Vz14", task->GetName())));
   task_Vz14->SetEventCuts(kZ, -14., 14.);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_Vz14, "_Vz14");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_Vz14, "_Vz14");
 
   // allow more multipliticty outliers
   AliAnalysisTaskAR *task_MC16350 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_MC16350", task->GetName())));
   task_MC16350->SetMulCorCut(1.6, 350);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_MC16350, "_MC16350");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_MC16350, "_MC16350");
 
   // allow more centrality outliers
   AliAnalysisTaskAR *task_CC1111 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_CC1111", task->GetName())));
   task_CC1111->SetCenCorCut(1.1, 11);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_CC1111, "_CC1111");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_CC1111, "_CC1111");
 
   // narrow up dca XY
   AliAnalysisTaskAR *task_DcaXY22 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_DcaXY22", task->GetName())));
   task_DcaXY22->SetTrackCuts(kDCAXY, -2.2, 2.2);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_DcaXY22, "_DcaXY22");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_DcaXY22, "_DcaXY22");
 
   // narrow up dca Z
   AliAnalysisTaskAR *task_DcaZ24 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_DcaZ24", task->GetName())));
   task_DcaZ24->SetTrackCuts(kDCAZ, -2.4, 2.4);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_DcaZ24, "_DcaZ24");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_DcaZ24, "_DcaZ24");
 
   // open up number of clusters
   AliAnalysisTaskAR *task_Cluster60 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_Cluster60", task->GetName())));
   task_Cluster60->SetTrackCuts(kTPCNCLS, 60, 160);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_Cluster60, "_Cluster60");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_Cluster60, "_Cluster60");
 
   // narrow number of clusters
   AliAnalysisTaskAR *task_Cluster80 = dynamic_cast<AliAnalysisTaskAR *>(
       task->Clone(Form("%s_Cluster80", task->GetName())));
   task_Cluster80->SetTrackCuts(kTPCNCLS, 80, 160);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_Cluster80, "_Cluster80");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_Cluster80, "_Cluster80");
 
   // filterbit 1
   AliAnalysisTaskAR *task_Fb1 = dynamic_cast<AliAnalysisTaskAR *>(
@@ -118,7 +118,7 @@ void AddTask(const char *ConfigFileName, Int_t RunNumber, Float_t CenterMin,
   task_Fb1->SetTrackCuts(kDCAZ, kFALSE);
   task_Fb1->SetTrackCuts(kDCAXY, kFALSE);
   task_Fb1->SetFilterbit(1);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_Fb1, "_Fb1");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_Fb1, "_Fb1");
 
   // filterbit 96
   AliAnalysisTaskAR *task_Fb96 = dynamic_cast<AliAnalysisTaskAR *>(
@@ -126,7 +126,7 @@ void AddTask(const char *ConfigFileName, Int_t RunNumber, Float_t CenterMin,
   task_Fb96->SetTrackCuts(kDCAZ, kFALSE);
   task_Fb96->SetTrackCuts(kDCAXY, kFALSE);
   task_Fb96->SetFilterbit(96);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_Fb96, "_Fb96");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_Fb96, "_Fb96");
 
   // filterbit 768
   AliAnalysisTaskAR *task_Fb768 = dynamic_cast<AliAnalysisTaskAR *>(
@@ -134,7 +134,7 @@ void AddTask(const char *ConfigFileName, Int_t RunNumber, Float_t CenterMin,
   task_Fb768->SetTrackCuts(kDCAZ, kFALSE);
   task_Fb768->SetTrackCuts(kDCAXY, kFALSE);
   task_Fb768->SetFilterbit(768);
-  SetWeights(RunNumber, CenterMin, CenterMax, task_Fb768, "_Fb768");
+  // SetWeights(RunNumber, CenterMin, CenterMax, task_Fb768, "_Fb768");
 
   // add all tasks to the analysis manager in a loop
   std::vector<AliAnalysisTaskAR *> tasks = {
