@@ -1,6 +1,6 @@
 {
   "misc": {
-    "LongTimeout": 60,
+    "LongTimeout": 600,
     "ShortTimeout": 20,
     "CopyJobs": 120,
     "CopyRetries": 3,
