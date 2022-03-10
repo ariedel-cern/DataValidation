@@ -1,6 +1,6 @@
 {
   "misc": {
-    "LongTimeout": 600,
+    "LongTimeout": 60,
     "ShortTimeout": 20,
     "CopyJobs": 120,
     "CopyRetries": 3,
@@ -11,15 +11,15 @@
     "ThresholdFailedAOD": 3
   },
   "task": {
-    "BaseName": "BinnedCorrelationCuts",
-    "AnalysisName": "BinnedCorrelationCuts",
+    "BaseName": "CorrelationCuts",
+    "AnalysisName": "CorrelationCuts",
     "AnalysisTag": "vAN-20220221_ROOT6-1",
     "OutputTDirectory": "OutputAnalysis",
     "AnalysisMode": "grid",
     "RunOverAOD": true,
     "RunOverData": true,
     "GridHomeDir": "/alice/cern.ch/user/a/ariedel",
-    "GridWorkDir": "20220310_BinnedCorrelationCuts",
+    "GridWorkDir": "20220312_CorrelationCuts",
     "GridOutputDir": "output",
     "GridOutputFile": "AnalysisResults.root",
     "GridDataDir": "/alice/data/2010/LHC10h",
@@ -31,7 +31,7 @@
     "TimeToLive": [28800, 21600, 14400, 7200],
     "LocalDataDir": "/home/stud/ga45can/tmp_local/data/2010/LHC10h/000137161/ESDs/pass2/AOD160",
     "LocalOutputFile": "Output.root",
-    "CentralityBinEdges": [0, 5, 10, 20, 30, 40, 50, 60, 70, 80],
+    "CentralityBinEdges": [0, 80],
     "UseWeights": false
   },
   "Runs": [ 137161, 138275 ],
