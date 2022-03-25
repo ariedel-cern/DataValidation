@@ -48,9 +48,20 @@ void AddTask(const char *ConfigFileName, Int_t RunNumber, Float_t CenterMin,
   task->SetDefaultCuts(128, CenterMin, CenterMax);
   // should be includedi n default cuts
   task->SetTrackCuts(kTPCCROSSEDROWS, kFALSE);
-  task->SetFillControlHistogramsOnly(kTRUE);
-  // task->SetFillQACorHistogramsOnly(kTRUE); too resource intensive
 
+  std::vector<std::vector<Int_t>> sc = {
+      {2, 3},    {2, 4},    {2, 5},    {2, 6},    {3, 4},    {3, 5},
+      {3, 6},    {4, 5},    {4, 6},    {5, 6},    {2, 3, 4}, {2, 3, 5},
+      {2, 3, 6}, {2, 4, 5}, {2, 4, 6}, {3, 4, 5}, {3, 4, 6}, {4, 5, 6}};
+  task->SetSymmetricCumulants(sc);
+
+  std::vector<Double_t> ptBinning = {0.2, 0.34, 0.5, 0.7, 1.0, 2.0, 5.0};
+  std::vector<Double_t> etaBinning = {-0.8, -0.4, 0., 0.4, 0.8};
+
+  task->SetTrackBinning(kPT, ptBinning);
+  task->SetTrackBinning(kETA, etaBinning);
+
+  SetWeights(RunNumber, CenterMin, CenterMax, task, "");
 
   // systematic checks
   // change centrality estimator
